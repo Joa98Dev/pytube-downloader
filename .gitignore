@@ -19,4 +19,8 @@ downloads/
 build/
 dist/
 
+# Compile file
 main.spec
+
+# ffmpeg
+ffmpeg
