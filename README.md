@@ -12,6 +12,8 @@ Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, 
 ## 🚀 Features
 
 * Download videos and choose its quality
+    * 2160p 
+    * 1440p   
     * 1080p - (default)
     * 720p
     * 480p
@@ -28,6 +30,7 @@ Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, 
 
 * **Python 3.10+**
 * **moviepy**, **yt-dlp** and **customtkinter** - (installed via `requirements.txt`)
+* FFmpeg modules -> [Download HERE!](https://www.gyan.dev/ffmpeg/builds/)
 * Linux/Windows/macOS
 
 ## ⚙️ Installation
@@ -48,6 +51,8 @@ source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Add the three FFmpeg modules to the root of the project
 
 # Run the app
 python main.py
@@ -70,6 +75,8 @@ source venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
+# Add the three FFmpeg modules to the root of the project
+
 # Run the app
 python main.py
 ```
@@ -90,6 +97,8 @@ venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Add the three FFmpeg modules to the root of the project
 
 # Run the app
 python main.py
@@ -114,6 +123,8 @@ source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Add the three FFmpeg modules to the root of the project
 
 # Run the app
 python3 main.py
