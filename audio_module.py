@@ -58,7 +58,12 @@ def _audio_tab(notebook):
     # Create a dropdown menu to select audio quality
     audio_quality_label = ctk.CTkLabel(audio_tab, text="Select Audio Quality:")
     audio_quality_label.pack(pady=5)
-    audio_quality_dropdown = ctk.CTkComboBox(audio_tab, values=["320", "256", "192", "128"])
+    audio_quality_dropdown = ctk.CTkComboBox(audio_tab, values=[
+        "320",
+        "256",
+        "192", # Default
+        "128"
+        ])
     audio_quality_dropdown.set("192")
     audio_quality_dropdown.pack(pady=5)
 
@@ -76,6 +81,9 @@ def _audio_tab(notebook):
             messagebox.showerror("Error", "Please enter a valid URL.")
             progress_bar.pack_forget()
             return
+
+        # Create audio files saved directory
+        os.makedirs("audio_downloaded", exist_ok=True)
 
         ydlp_opts = {
             'format': 'bestaudio/best',
