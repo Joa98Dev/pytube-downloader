@@ -14,6 +14,7 @@ audios/
 video/
 audio/
 downloads/
+videos_downloaded/
 
 # Executable storage folders
 build/

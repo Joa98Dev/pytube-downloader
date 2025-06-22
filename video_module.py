@@ -1,8 +1,8 @@
-'''
+"""
 
 THIS SCRIPT MANAGE THE VIDEO DOWNLOADING FEATURES
 
-'''
+"""
 
 # Libraries
 import sys
@@ -16,6 +16,7 @@ from yt_dlp import YoutubeDL
 import threading
 import time
 
+
 # Ensures the icon is found by Pyinstaller
 def resource_path(relative_path):
     try:
@@ -24,6 +25,7 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
+
 
 # Manage the video tab
 def _video_tab(notebook):
@@ -37,7 +39,9 @@ def _video_tab(notebook):
 
     # Loads the icon and prevents garbage collection to delete it
     image = ctk.CTkImage(light_image=Image.open(icon_path), size=(24, 24))
-    label = ctk.CTkLabel(video_tab, text="Video Downloader", image=image, compound="left")
+    label = ctk.CTkLabel(
+        video_tab, text="Video Downloader", image=image, compound="left"
+    )
     label.pack(pady=10)
     video_tab.image = image
 
@@ -57,13 +61,11 @@ def _video_tab(notebook):
     video_quality_label = ctk.CTkLabel(video_tab, text="Select Video Quality:")
     video_quality_label.pack(pady=5)
     video_quality_var = ctk.StringVar()
-    #video_quality_dropdown = ctk.CTkComboBox(video_tab, textvariable=video_quality_var)
-    video_quality_dropdown = ctk.CTkComboBox(video_tab, values= [
-        "1080p",
-        "720p",
-        "480p"
-        ])
-    
+    # video_quality_dropdown = ctk.CTkComboBox(video_tab, textvariable=video_quality_var)
+    video_quality_dropdown = ctk.CTkComboBox(
+        video_tab, values=["1080p", "720p", "480p"]
+    )
+
     video_quality_dropdown.set("1080p")  # Default to 1080p
     video_quality_dropdown.pack(pady=5)
 
@@ -88,19 +90,21 @@ def _video_tab(notebook):
             return
 
         # Creates the videos folder
-        os.makedirs('videos_downloaded', exist_ok=True)
+        os.makedirs("videos_downloaded", exist_ok=True)
 
         # Configure yt-dlp options based on selected video quality
         ydl_opts = {
-            'ffmpeg_location' : os.path.join(os.environ["APPDIR"], "usr", "bin"), 
-            'format': f"bestvideo[height<={selected_quality}]+bestaudio/best",
-            'outtmpl': f"videos_downloaded/video_%(clean_title)s_{selected_quality}p.%(ext)s",
-            'merge_output_format' : 'mp4',
-            'postprocessor' : [{
-                #'key' : 'FFmpegVideoConvertor',
-                'key' : 'FFmpegMerger',
-                #'preferedformat' : 'mp4',
-                }],
+            "ffmpeg_location": os.path.join(os.environ.get("APPDIR", "/usr"), "bin"),
+            "format": f"bestvideo[height<={selected_quality}]+bestaudio/best",
+            "outtmpl": f"videos_downloaded/video_%(clean_title)s_{selected_quality}p.%(ext)s",
+            "merge_output_format": "mp4",
+            "postprocessor": [
+                {
+                    #'key' : 'FFmpegVideoConvertor',
+                    "key": "FFmpegMerger",
+                    #'preferedformat' : 'mp4',
+                }
+            ],
         }
 
         try:
@@ -108,9 +112,11 @@ def _video_tab(notebook):
                 ydl.download([url])
 
                 progress_bar.set(1)
-        
+
             # Show confirmation message once download is complete
-            messagebox.showinfo("Download Complete!", f"Downloaded video in {selected_quality} quality.")
+            messagebox.showinfo(
+                "Download Complete!", f"Downloaded video in {selected_quality} quality."
+            )
         except Exception as e:
             print(f"Error downloading video: {e}")
             messagebox.showerror("Download Failed", str(e))
@@ -124,5 +130,7 @@ def _video_tab(notebook):
             threading.Thread(target=download_video).start()
 
     # Buttons manager
-    download_video_button = ctk.CTkButton(video_tab, text="Download", command=download_video)
+    download_video_button = ctk.CTkButton(
+        video_tab, text="Download", command=download_video
+    )
     download_video_button.pack(pady=20)
