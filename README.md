@@ -37,13 +37,13 @@ Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, 
 ```
 # Install Python and Git
 sudo apt update && sudo apt install python3 python3-pip git
-cd Pytube_Downloader
 
 # Clone the repository
 git clone https://github.com/Joa98Dev/pytube-downloader.git
+cd pytube-donwloader
 
 # Set up a virtual envrionments
-Python3 -m venv
+python3 -m venv venv
 source venv/bin/activate
 
 # Install dependencies
