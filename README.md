@@ -1,6 +1,6 @@
 # 📹 Pytube Downloader - Video/Audio Downloader Application
 
-**Version**: 2.0.1
+**Version**: 2.5.0
 
 **Author**: Joa98
 
