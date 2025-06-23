@@ -3,3 +3,4 @@ yt-dlp==2024.5.27
 moviepy==1.0.3
 requests==2.32.3
 tqdm==4.67.1
+packaging==25.0
