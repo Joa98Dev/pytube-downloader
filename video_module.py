@@ -99,7 +99,7 @@ def _video_tab(notebook):
         if not output_dir:
             output_dir = os.path.join(Path.home(), "Downloads")
 
-        selected_quality = video_quality_dropdown.get()
+        
 
         # Check if the URL is not empty
         if not url:
@@ -107,8 +107,6 @@ def _video_tab(notebook):
             progress_bar.pack_forget()
             return
 
-        # Creates the videos folder
-        os.makedirs('videos_downloaded', exist_ok=True)
         
         # FFmpeg path
         def ffmpeg_location():
@@ -143,7 +141,7 @@ def _video_tab(notebook):
             #'ffmpeg_location' : os.path.join(os.environ["APPDIR"], "usr", "bin"), 
             'ffmpeg_location' : ffmpeg_location(),
             'format': f"bestvideo[ext=mp4][height<={max_height}]+bestaudio[ext=m4a]/best[height<={max_height}]",
-            'outtmpl': f"videos_downloaded/video_%(clean_title)s_{selected_quality}.%(ext)s",
+            'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
             'merge_output_format' : 'mp4',
             'postprocessor' : [{
                 #'key' : 'FFmpegVideoConvertor',
@@ -170,10 +168,10 @@ def _video_tab(notebook):
             time.sleep(1)
             progress_bar.pack_forget()
 
-        # Runs the download in the background thread to avoid the GUI freezing.
-        def start_download_thread():
-            threading.Thread(target=download_video).start()
+    # Runs the download in the background thread to avoid the GUI freezing.
+    def start_download_thread():
+        threading.Thread(target=download_video, daemon=True).start()
 
     # Buttons manager
-    download_video_button = ctk.CTkButton(video_tab, text="Download", command=download_video)
+    download_video_button = ctk.CTkButton(video_tab, text="Download", command=start_download_thread)
     download_video_button.pack(pady=20)
