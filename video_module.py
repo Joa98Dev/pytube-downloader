@@ -7,12 +7,14 @@ THIS SCRIPT MANAGE THE VIDEO DOWNLOADING FEATURES
 # Libraries
 import sys
 import os
+from pathlib import Path
 import tkinter as tk
 import customtkinter as ctk
 from PIL import Image
 from tkinter import ttk
 from tkinter import messagebox
-from yt_dlp import YoutubeDL
+from tkinter import filedialog
+from yt_dlp import YoutubeDL # -> import the yt_dlp library
 import shutil
 import threading
 import time
@@ -61,11 +63,15 @@ def _video_tab(notebook):
 
     #video_quality_dropdown = ctk.CTkComboBox(video_tab, textvariable=video_quality_var)
     video_quality_dropdown = ctk.CTkComboBox(video_tab, values= [
-        "2160p", # 4K -> beta
-        "1440p", # 2K/QHD -> beta
-        "1080p",
-        "720p",
-        "480p"
+        "4320p",  # 8K
+        "2160p", # 4K
+        "1440p", # 2K
+        "1080p", # FHD
+        "720p",  # HD
+        "480p",  # SD+
+        "360p",  # SD
+        "240p",  # Low SD
+        "144p"   # Very Low
         ])
     
     video_quality_dropdown.set("1080p")  # Default to 1080p
@@ -85,6 +91,14 @@ def _video_tab(notebook):
         show_progress(0.1)
 
         url = video_url_entry.get()
+
+        # Ask user for output directory
+        output_dir = filedialog.askdirectory(title="Select Download Folder")
+
+        # If user does not choose, use the Default Download folder
+        if not output_dir:
+            output_dir = os.path.join(Path.home(), "Downloads")
+
         selected_quality = video_quality_dropdown.get()
 
         # Check if the URL is not empty

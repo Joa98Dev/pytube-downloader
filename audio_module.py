@@ -7,14 +7,16 @@ THIS SCRIPT MANAGE THE AUDIO DOWNLOADING FEATURES
 # Libraries
 import sys
 import os
+from pathlib import Path
 import re
 import moviepy as mp
-from yt_dlp import YoutubeDL
+from yt_dlp import YoutubeDL # -> import the yt_dlp library
 import tkinter as tk
 import customtkinter as ctk
 from PIL import Image
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter import filedialog
 import threading
 import time
 
@@ -75,15 +77,20 @@ def _audio_tab(notebook):
     # Use the yt_dlp library to extract the audio of the video.
     def playlist_downloader():
         playlist_url = url_entry.get()
+
+        # Ask user for output directory
+        output_dir = filedialog.askdirectory(title="Select Download Folder")
+
+        # If user does not choose, use the Default Download folder
+        if not output_dir:
+            output_dir = os.path.join(Path.home(), "Downloads")
+
         selected_quality = audio_quality_dropdown.get()
 
         if not playlist_url:
             messagebox.showerror("Error", "Please enter a valid URL.")
             progress_bar.pack_forget()
             return
-
-        # Create audio files saved directory
-        os.makedirs("audio_downloaded", exist_ok=True)
 
         ydlp_opts = {
             'format': 'bestaudio/best',
@@ -92,7 +99,7 @@ def _audio_tab(notebook):
                 'preferredcodec': 'mp3',
                 'preferredquality': selected_quality,
             }],
-            'outtmpl': 'audio_downloaded/%(title)s.%(ext)s',
+            'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
         }
 
         # Download the audio file and show errors if somthing fails
