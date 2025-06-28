@@ -98,31 +98,24 @@ def _video_tab(notebook):
         
         # FFmpeg path
         def ffmpeg_location():
-            
-            # Get the ffmpeg location if it's an AppImage
-            appdir = os.environ.get("APPDIR", None)
-            
-            # AppImage specific route 
-            if appdir:
-                return os.path.join(appdir, "usr", "bin")
-
-            # If FFmpeg is already installed in the Operating System
-            if shutil.which("ffmpeg"):
-                return "ffmpeg"
-
-            current_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+            # Intenta primero con el ejecutable en la raíz del proyecto
+            current_dir = os.path.dirname(os.path.abspath(__file__))
             local_ffmpeg = os.path.join(current_dir, "ffmpeg.exe" if os.name == "nt" else "ffmpeg")
             if os.path.isfile(local_ffmpeg):
                 return local_ffmpeg
 
-            # Error message shows if the FFmpeg files does not exist
+            # Busca en el PATH
+            if shutil.which("ffmpeg"):
+                return "ffmpeg"
+
+            # AppImage (Linux portable)
+            appdir = os.environ.get("APPDIR", None)
+            if appdir:
+                return os.path.join(appdir, "usr", "bin", "ffmpeg")
+
             raise EnvironmentError(
-                "FFmpeg is not available"
-                "Please add the FFmpeg files inside the PyTube Downloader root directory."
-
+                "FFmpeg is not available. Please add the FFmpeg files inside the PyTube Downloader root directory."
             )
-
-        
 
         # Configure yt-dlp options based on selected video quality
         ydl_opts = {

@@ -1,5 +1,5 @@
 customtkinter==5.2.1
-yt-dlp==2024.5.27
+yt-dlp # Always latest yt-dlp to ensure compatibility with YouTube
 moviepy==1.0.3
 requests==2.32.3
 tqdm==4.67.1
