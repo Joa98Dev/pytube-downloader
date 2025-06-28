@@ -9,6 +9,10 @@
 
 Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, where you can download videos and audio files from the web.
 
+## ⚠️ Disclaimer 
+      This program is intended for personal and educational use only.
+      The developer is NOT responsible for any misuse of this application.
+
 ## 🚀 Features
 
 * Download videos and choose its quality
