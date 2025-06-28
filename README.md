@@ -7,11 +7,12 @@
 <img src="screenshots/Cover.png" align="center"/>
 
 
-Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, where you can download videos and audio files from the YouTube, Facebook, Instagram and more websites.
+Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, where you can download videos and audio files from the web.
 
 ## 🚀 Features
 
 * Download videos and choose its quality
+    * 4320P 
     * 2160p 
     * 1440p   
     * 1080p - (default)
