@@ -24,3 +24,11 @@ main.spec
 
 # ffmpeg
 ffmpeg
+
+ffmpeg.exe
+
+ffplay.exe
+
+ffprobe.exe
+
+videos_downloaded
