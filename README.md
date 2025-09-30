@@ -145,3 +145,8 @@ python3 main.py
 4. Press the **Download** button
 5. Wait until the app finish the download.
 6. Done!
+
+## 📦 Compiled Version
+
+Don't want to compile it yourself?
+Then you can download a precompiled version for **Linux** and **Windows** [here](https://joa98.itch.io/pytube)
