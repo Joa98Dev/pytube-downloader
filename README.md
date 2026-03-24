@@ -35,8 +35,10 @@ Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, 
 
 * **Python 3.10+**
 * **moviepy**, **yt-dlp** and **customtkinter** - (installed via `requirements.txt`)
-* FFmpeg modules -> [Download HERE!](https://www.gyan.dev/ffmpeg/builds/)
-* Linux/Windows/macOS
+* FFmpeg modules (Windows)-> [Download HERE!](https://www.gyan.dev/ffmpeg/builds/).
+* FFmepg modules (Linux) -> [Download HERE!](https://johnvansickle.com/ffmpeg/).
+* FFmpeg modules (macOS) -> [Download HERE!](https://www.osxexperts.net/).
+* Linux / Windows / macOS
 
 ## ⚙️ Installation
 
@@ -143,3 +145,8 @@ python3 main.py
 4. Press the **Download** button
 5. Wait until the app finish the download.
 6. Done!
+
+## 📦 Compiled Version
+
+Don't want to compile it yourself?
+Then you can download a precompiled version for **Linux** and **Windows** [here](https://joa98.itch.io/pytube)
