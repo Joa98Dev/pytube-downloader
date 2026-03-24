@@ -3,14 +3,12 @@
 PyTube Downloader - Video/Audio Downloader Program
 -----------------------------------------------------
 
-Version: 2.5.0
+Version: 2.5.3
 
 Author: Joa98
 
-Email: joaquinpuente98@gmail.com
-
 ------------------------------------
-# Copyright (C) 2025 Joaquín Puente
+# Copyright (C) 2026 Joa98
 # This file is licensed under the GNU General Public License v3.0.
 # See https://www.gnu.org/licenses/gpl-3.0.html for more information.
 ------------------------------------

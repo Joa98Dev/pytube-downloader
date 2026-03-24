@@ -31,4 +31,11 @@ ffplay.exe
 
 ffprobe.exe
 
+ffprobe
+
+qt-faststart
+
 videos_downloaded
+
+# Other elements
+*.7z

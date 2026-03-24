@@ -45,7 +45,7 @@ def _video_tab(notebook):
     video_tab.image = image
 
     # UI to enter the video / playlist URL
-    video_url_label = ctk.CTkLabel(video_tab, text="Enter Video/Playlist URL:")
+    video_url_label = ctk.CTkLabel(video_tab, text="Enter Video / Playlist URL:")
     video_url_label.pack(pady=5)
     video_url_entry = ctk.CTkEntry(video_tab, width=300)
     video_url_entry.pack(pady=5)

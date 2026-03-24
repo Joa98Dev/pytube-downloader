@@ -1,6 +1,21 @@
+altgraph==0.17.5
+certifi==2026.1.4
+charset-normalizer==3.4.4
 customtkinter==5.2.1
-yt-dlp # Always latest yt-dlp to ensure compatibility with YouTube
+darkdetect==0.8.0
+decorator==4.4.2
+idna==3.11
+ImageIO==2.37.2
+imageio-ffmpeg==0.6.0
 moviepy==1.0.3
-requests==2.32.3
-tqdm==4.67.1
+numpy==2.4.2
 packaging==25.0
+pillow==12.1.1
+proglog==0.1.12
+pyinstaller==6.19.0
+pyinstaller-hooks-contrib==2026.1
+requests==2.32.3
+setuptools==82.0.0
+tqdm==4.67.1
+urllib3==2.6.3
+yt-dlp==2026.2.21
