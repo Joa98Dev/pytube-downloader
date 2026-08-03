@@ -3,7 +3,7 @@
 PyTube Downloader - Video/Audio Downloader Program
 -----------------------------------------------------
 
-Version: 2.5.3
+Version: 2.6.0
 
 Author: Joa98
 
@@ -21,6 +21,7 @@ from PIL import Image
 from tkinter import ttk
 from audio_module import _audio_tab
 from video_module import _video_tab
+import webbrowser
 import os
 import sys
 
@@ -53,11 +54,23 @@ def main():
             "The developer is NOT responsible for any misuse of this application.\n\n"
             "License: GPL v3.0\n"
             "Source code available at:\n"
-            "https://github.com/Joa98Dev/pytube-downloader\n"
         )
 
         label = ctk.CTkLabel(disclaimer, text=label_text, justify="left", wraplength=450)
         label.pack(pady=20, padx=20)
+
+        github_link = ctk.CTkLabel(
+             disclaimer, text="https://github.com/Joa98Dev/pytube-downloader",
+             text_color="#1f6feb",
+             cursor="hand2"
+        )
+
+        github_link.pack()
+
+        github_link.bind(
+             "<Button-1>",
+             lambda e: webbrowser.open("https://github.com/Joa98Dev/pytube-downloader")
+        )
 
         def close_disclaimer():
             disclaimer.destroy()

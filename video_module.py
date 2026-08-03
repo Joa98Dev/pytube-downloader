@@ -129,20 +129,57 @@ def _video_tab(notebook):
                 "FFmpeg is not available. Please add the FFmpeg files inside the PyTube Downloader root directory."
             )
 
+        # Ask to yt-dlp for the video information
+        info_opts = {
+            "quiet" : True,
+            "ffmpeg_location" : ffmpeg_location(),
+        }
+
+        with YoutubeDL(info_opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+
+        
+
+        video_formats = []
+
+        for fmt in info["formats"]:
+            if fmt.get("vcodec") == "none":
+                continue
+
+            height = fmt.get("height")
+
+            if height is None:
+                continue
+
+            if height <= max_height:
+                video_formats.append(fmt)
+
+        if not video_formats:
+            raise Exception("No compatible video format was found.")
+
+        best_video = max(
+            video_formats,
+            key=lambda f: f["height"]
+        )
+
+        video_id = best_video["format_id"]
+
+        if best_video.get("acodec") == "none":
+            format_string = f"{video_id}+bestaudio/best"
+        else:
+            format_string = video_id
+        
+
         # Configure yt-dlp options based on selected video quality
         ydl_opts = {
             #'ffmpeg_location' : os.path.join(os.environ["APPDIR"], "usr", "bin"), 
             'ffmpeg_location' : ffmpeg_location(),
-            'format': f"bestvideo[ext=mp4][height<={max_height}]+bestaudio[ext=m4a]/best[height<={max_height}]",
+            'format' : format_string,
+            #'format': f"bestvideo[ext=mp4][height<={max_height}]+bestaudio[ext=m4a]/best[height<={max_height}]",
             'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
             'merge_output_format' : 'mp4',
-            'postprocessor' : [{
-                #'key' : 'FFmpegVideoConvertor',
-                'key' : 'FFmpegMerger',
-                #'preferedformat' : 'mp4',
-                }],
-                'hls_prefer_native' : True,
-                'hls_use_mpgets' : True,
+            'hls_prefer_native' : True,
+            'hls_use_mpegts' : True,
         }
 
         try:
