@@ -37,6 +37,7 @@ Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, 
     * 128 kbps
     * 96 kbps
     * 64 kbps
+    
     *Note: flac and wav formats are lossless.*
 
 * Download videos and audios playlists.
