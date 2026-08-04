@@ -17,6 +17,7 @@ from PIL import Image
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter import filedialog
+import shutil
 import threading
 import time
 
@@ -74,6 +75,26 @@ def _audio_tab(notebook):
         progress_bar.set(val)
         progress_bar.update_idletasks()
 
+    def ffmpeg_location():
+        # Try first to use the executable located in the root of the project
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        local_ffmpeg = os.path.join(current_dir, "ffmpeg.exe" if os.name == "nt" else "ffmpeg")
+        if os.path.isfile(local_ffmpeg):
+            return local_ffmpeg
+        
+        # Serch in the path
+        if shutil.which("ffmpeg"):
+            return "ffmpeg"
+        
+        # AppImage (Linux portable)
+        appdir = os.environ.get("APPDIR", None)
+        if appdir:
+            return os.path.join(appdir, "usr", "bin", "ffmpeg")
+        
+        raise EnvironmentError(
+            "FFmpeg is not available. Please add the FFmpeg files inside the PyTube Downloader root directory."
+                    )
+
     # Use the yt_dlp library to extract the audio of the video.
     def playlist_downloader():
         playlist_url = url_entry.get()
@@ -91,8 +112,10 @@ def _audio_tab(notebook):
             messagebox.showerror("Error", "Please enter a valid URL.")
             progress_bar.pack_forget()
             return
+    
 
         ydlp_opts = {
+            "ffmpeg_location": ffmpeg_location(),
             'format': 'bestaudio/best',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
@@ -102,23 +125,42 @@ def _audio_tab(notebook):
             'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
         }
 
-        # Download the audio file and show errors if somthing fails
+        # Download the audio file and show errors if something fails
         def download_audio():
             try:
                 progress_bar.pack()
                 with YoutubeDL(ydlp_opts) as ydl:
                     ydl.download([playlist_url])
-                show_progress(1.0)
-                messagebox.showinfo("Download Complete!", f"Downloaded audio in {selected_quality} quality.")
-            except Exception as e:
-                messagebox.showerror("Download Failed", str(e))
-            finally:
-                time.sleep(1)
-                progress_bar.pack_forget()
-                show_progress(0)
 
+                audio_tab.after(0, lambda: show_progress(1.0))
+                audio_tab.after(
+                    0,
+                    lambda: messagebox.showinfo(
+                        "Download Complete!",
+                        f"Download audio in {selected_quality} quality."
+                    )
+                )
+
+            except Exception as e:
+                audio_tab.after(
+                    0,
+                    lambda: messagebox.showerror(
+                        "Download Failed",
+                        str(e)
+                    )
+                )
+
+            finally:
+                audio_tab.after(
+                    1000,
+                    lambda: (
+                        progress_bar.pack_forget(),
+                        show_progress(0)
+                    )
+                )
+                
         # Runs the download in a background thread to avoid the GUI freezing.
-        threading.Thread(target=download_audio).start()
+        threading.Thread(target=download_audio, daemon=True).start()
 
     # Create the download button
     download_audio_button = ctk.CTkButton(audio_tab, text="Download", command=playlist_downloader)

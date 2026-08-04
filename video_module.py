@@ -60,8 +60,6 @@ def _video_tab(notebook):
     video_quality_label = ctk.CTkLabel(video_tab, text="Select Video Quality:")
     video_quality_label.pack(pady=5)
     video_quality_var = ctk.StringVar()
-
-    #video_quality_dropdown = ctk.CTkComboBox(video_tab, textvariable=video_quality_var)
     video_quality_dropdown = ctk.CTkComboBox(video_tab, values= [
         "4320p",  # 8K
         "2160p", # 4K
@@ -110,13 +108,13 @@ def _video_tab(notebook):
         
         # FFmpeg path
         def ffmpeg_location():
-            # Intenta primero con el ejecutable en la raíz del proyecto
+            # Try first to use the executable located in the root of the project
             current_dir = os.path.dirname(os.path.abspath(__file__))
             local_ffmpeg = os.path.join(current_dir, "ffmpeg.exe" if os.name == "nt" else "ffmpeg")
             if os.path.isfile(local_ffmpeg):
                 return local_ffmpeg
 
-            # Busca en el PATH
+            # Search in the path
             if shutil.which("ffmpeg"):
                 return "ffmpeg"
 
@@ -171,11 +169,9 @@ def _video_tab(notebook):
         
 
         # Configure yt-dlp options based on selected video quality
-        ydl_opts = {
-            #'ffmpeg_location' : os.path.join(os.environ["APPDIR"], "usr", "bin"), 
+        ydl_opts = { 
             'ffmpeg_location' : ffmpeg_location(),
             'format' : format_string,
-            #'format': f"bestvideo[ext=mp4][height<={max_height}]+bestaudio[ext=m4a]/best[height<={max_height}]",
             'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
             'merge_output_format' : 'mp4',
             'hls_prefer_native' : True,
