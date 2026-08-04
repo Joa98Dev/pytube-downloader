@@ -3,7 +3,7 @@
 PyTube Downloader - Video/Audio Downloader Program
 -----------------------------------------------------
 
-Version: 2.6.0
+Version: 2.6.5
 
 Author: Joa98
 
@@ -36,7 +36,7 @@ def resource_path(icon_path):
 # Main application window
 def main():
     ctk.set_appearance_mode("System")
-    ctk.set_default_color_theme(resource_path("themes/purple_droid.json"))
+    ctk.set_default_color_theme(resource_path("themes/pytube_studio.json"))
     
     # Create the main application window
     root = ctk.CTk()

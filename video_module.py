@@ -8,10 +8,8 @@ THIS SCRIPT MANAGE THE VIDEO DOWNLOADING FEATURES
 import sys
 import os
 from pathlib import Path
-import tkinter as tk
 import customtkinter as ctk
 from PIL import Image
-from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog
 from yt_dlp import YoutubeDL # -> import the yt_dlp library
@@ -59,7 +57,6 @@ def _video_tab(notebook):
     # Create a dropdown menu to select video quality
     video_quality_label = ctk.CTkLabel(video_tab, text="Select Video Quality:")
     video_quality_label.pack(pady=5)
-    video_quality_var = ctk.StringVar()
     video_quality_dropdown = ctk.CTkComboBox(video_tab, values= [
         "4320p",  # 8K
         "2160p", # 4K
@@ -85,9 +82,6 @@ def _video_tab(notebook):
             progress_bar.set(val)
             progress_bar.update_idletasks()
 
-        progress_bar.pack()
-        show_progress(0.1)
-
         url = video_url_entry.get()
 
         # Ask user for output directory
@@ -96,8 +90,6 @@ def _video_tab(notebook):
         # If user does not choose, use the Default Download folder
         if not output_dir:
             output_dir = os.path.join(Path.home(), "Downloads")
-
-        
 
         # Check if the URL is not empty
         if not url:
@@ -136,8 +128,6 @@ def _video_tab(notebook):
         with YoutubeDL(info_opts) as ydl:
             info = ydl.extract_info(url, download=False)
 
-        
-
         video_formats = []
 
         for fmt in info["formats"]:
@@ -152,13 +142,29 @@ def _video_tab(notebook):
             if height <= max_height:
                 video_formats.append(fmt)
 
+        # No format at ot below the requested resolution
         if not video_formats:
-            raise Exception("No compatible video format was found.")
+            candidates = [
+                fmt for fmt in info.get("formats", [])
+                if fmt.get("vcodec") !="none"
+                and fmt.get("height") is not None
+            ]
 
-        best_video = max(
-            video_formats,
-            key=lambda f: f["height"]
-        )
+            if not candidates:
+                raise RuntimeError("No compatible video format was found.")
+
+            # Use the lowest available resolution
+            best_video = min(
+                candidates,
+                key=lambda f: f["height"]
+            )
+
+        else:
+            # Use the highest resolution that fits the users's request
+            best_video = max(
+                video_formats,
+                key=lambda f: f["height"]
+            )
 
         video_id = best_video["format_id"]
 
@@ -179,20 +185,43 @@ def _video_tab(notebook):
         }
 
         try:
+
+            progress_bar.pack()
+
             with YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
 
-                progress_bar.set(1)
+            video_tab.after(0, lambda: show_progress(0.1))
+            video_tab.after(
+                0,
+                lambda: messagebox.showinfo(
+                    "Download Complete!",
+                    #  Show confirmation message once download is complete
+                    f"Downloaded video in ({selected_quality} resolution)."
+
+                )
+            )
         
-            # Show confirmation message once download is complete
-            messagebox.showinfo("Download Complete!", f"Downloaded video in {selected_quality} quality.")
+            
         except Exception as e:
-            print(f"Error downloading video: {e}")
-            messagebox.showerror("Download Failed", str(e))
+            error_message = str(e)
+
+            video_tab.after(
+                0,
+                lambda: messagebox.showerror(
+                    "Download Failed!",
+                    error_message
+                )
+            )
 
         finally:
-            time.sleep(1)
-            progress_bar.pack_forget()
+            video_tab.after(
+                1000,
+                lambda: (
+                    progress_bar.pack_forget(),
+                    show_progress(0)
+                )
+            )
 
     # Runs the download in the background thread to avoid the GUI freezing.
     def start_download_thread():
