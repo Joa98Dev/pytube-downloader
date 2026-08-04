@@ -1,6 +1,6 @@
 # 📹 Pytube Downloader - Video/Audio Downloader Application
 
-**Version**: 2.6.0
+**Version**: 2.6.5
 
 **Author**: Joa98
 
@@ -15,7 +15,7 @@ Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, 
 
 ## 🚀 Features
 
-* Download videos and choose its quality
+* Download videos and choose its quality:
     * 4320P 
     * 2160p 
     * 1440p   
@@ -23,11 +23,22 @@ Python-based application built with moviepy, Tkinter, CustomTkinter and yt-dlp, 
     * 720p
     * 480p
     * 360p
-* Download audios and choose its quality
-    * 320
-    * 256
-    * 192 - (default)
-    * 128
+* Download audios and choose its format:
+    * MP3 - (default)
+    * M4A
+    * FLAC
+    * OPUS
+    * OGG
+    * WAV
+* And its bitrate:
+    * 320 kpbs
+    * 256 kbps
+    * 192 kbps
+    * 128 kbps
+    * 96 kbps
+    * 64 kbps
+    *Note: flac and wav formats are lossless.*
+
 * Download videos and audios playlists.
 * Never stores any users data.
 
